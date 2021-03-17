@@ -1,0 +1,21 @@
+package com.example.demo.Model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Entity
+@AllArgsConstructor
+@Data
+public class Item {
+
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	private String name;
+	private String price;
+
+}

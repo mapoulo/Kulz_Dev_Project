@@ -1,0 +1,25 @@
+package com.example.demo.Service;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Model.Item;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.cloud.FirestoreClient;
+
+@Service
+public class ItemService {
+
+	private static final String COLLECTION_NAME = "Items";
+
+	public String saveItem(Item item) throws Exception, Exception {
+
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		ApiFuture<WriteResult> collectionApiFuter = dbFirestore.collection(COLLECTION_NAME).document(item.getId().toString())
+				.set(item);
+
+		return collectionApiFuter.get().getUpdateTime().toString();
+	}
+
+}
