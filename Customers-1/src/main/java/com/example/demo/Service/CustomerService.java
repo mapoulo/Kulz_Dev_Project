@@ -16,20 +16,18 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class CustomerService {
-	
-	private static final String COLLECTION_NAME = "Customers";
-	
-	
-	public String saveCustomer(Customer customer) throws Exception, Exception {
 
+	private static final String COLLECTION_NAME = "Customers";
+
+	public String saveCustomer(Customer customer) throws Exception, Exception {
+		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		ApiFuture<WriteResult> collectionApiFuter = dbFirestore.collection(COLLECTION_NAME).document(customer.getName())
 				.set(customer);
-
+		
 		return collectionApiFuter.get().getUpdateTime().toString();
 	}
-	
-	
+
 	public List<Customer> getAllCustomers() throws InterruptedException, ExecutionException {
 
 		Firestore db = FirestoreClient.getFirestore();
@@ -51,14 +49,13 @@ public class CustomerService {
 
 		return customers;
 	}
-	
-	
+
 	public String updateCustomer(Customer customer) throws InterruptedException, ExecutionException {
 
 		Firestore dbFirestore = FirestoreClient.getFirestore();
-		ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(customer.getName())
-				.set(customer);
-		return "Updated succefully at "+collectionApiFuture.get().getUpdateTime().toString();
+		ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME)
+				.document(customer.getName()).set(customer);
+		return "Updated succefully at " + collectionApiFuture.get().getUpdateTime().toString();
 	}
 
 	public String deleteCutomer(String name) {
@@ -67,7 +64,7 @@ public class CustomerService {
 		dbFirestore.collection(COLLECTION_NAME).document(name).delete();
 		return "The item is deleted successfully";
 	}
-	
+
 	public Customer getCustomerByName(String name) throws Exception, ExecutionException {
 
 		Firestore dbFirestore = FirestoreClient.getFirestore();

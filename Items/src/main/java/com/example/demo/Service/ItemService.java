@@ -1,8 +1,10 @@
 package com.example.demo.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
@@ -21,11 +23,13 @@ public class ItemService {
 	private static final String COLLECTION_NAME = "Items";
 
 	public String saveItem(Item item) throws Exception, Exception {
-
+		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
-		ApiFuture<WriteResult> collectionApiFuter = dbFirestore.collection(COLLECTION_NAME).document(item.getName())
-				.set(item);
 
+		 String id = dbFirestore.collection(COLLECTION_NAME).document()
+				.getId();
+		 item.setId(id);
+    ApiFuture<WriteResult> collectionApiFuter = dbFirestore.collection(COLLECTION_NAME).document(id).set(item);
 		return collectionApiFuter.get().getUpdateTime().toString();
 	}
 
